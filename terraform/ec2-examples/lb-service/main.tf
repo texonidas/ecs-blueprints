@@ -16,6 +16,7 @@ locals {
   name   = "api"
   region = "ap-southeast-2"
   environment_name = "develop"
+  core_infra_name = "core-infra"
 
   container_port = 8080 # Container port is specific to this app example
   container_name = "api-service"
@@ -43,7 +44,7 @@ module "ecs_service" {
   requires_compatibilities = ["EC2"]
   capacity_provider_strategy = {
     default = {
-      capacity_provider = "network" # needs to match name of capacity provider
+      capacity_provider = local.core_infra_name # needs to match name of capacity provider
       weight            = 1
       base              = 1
     }
@@ -195,21 +196,21 @@ module "alb" {
 data "aws_vpc" "vpc" {
   filter {
     name   = "tag:Name"
-    values = ["core-infra"]
+    values = [local.core_infra_name]
   }
 }
 
 data "aws_subnets" "public" {
   filter {
     name   = "tag:Name"
-    values = ["core-infra-public-*"]
+    values = ["${local.core_infra_name}-public-*"]
   }
 }
 
 data "aws_subnets" "private" {
   filter {
     name   = "tag:Name"
-    values = ["core-infra-private-*"]
+    values = ["${local.core_infra_name}-private-*"]
   }
 }
 
@@ -219,7 +220,7 @@ data "aws_subnet" "private_cidr" {
 }
 
 data "aws_ecs_cluster" "core_infra" {
-  cluster_name = "core-infra"
+  cluster_name = local.core_infra_name
 }
 
 data "aws_service_discovery_dns_namespace" "this" {
