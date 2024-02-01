@@ -224,6 +224,6 @@ data "aws_ecs_cluster" "network" {
 }
 
 data "aws_service_discovery_dns_namespace" "this" {
-  name = "default.${data.aws_ecs_cluster.core_infra.cluster_name}.local"
+  name = "default.${data.aws_ecs_cluster.network.cluster_name}.local"
   type = "DNS_PRIVATE"
 }
