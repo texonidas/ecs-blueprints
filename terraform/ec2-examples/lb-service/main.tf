@@ -3,11 +3,11 @@ provider "aws" {
 }
 
 locals {
-  name   = "ecsdemo-frontend"
-  region = "us-west-2"
+  name   = "api"
+  region = "ap-southeast-2"
 
-  container_port = 3000 # Container port is specific to this app example
-  container_name = "ecsdemo-frontend"
+  container_port = 8080 # Container port is specific to this app example
+  container_name = "api-service"
 
   tags = {
     Blueprint  = local.name
@@ -40,7 +40,7 @@ module "ecs_service" {
 
   container_definitions = {
     (local.container_name) = {
-      image                    = "public.ecr.aws/aws-containers/ecsdemo-frontend"
+      image                    = "nginx:latest"
       readonly_root_filesystem = false
 
       port_mappings = [
