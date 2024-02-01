@@ -1,3 +1,13 @@
+terraform {
+  cloud {
+    organization = "talentvine"
+
+    workspaces {
+      name = "api"
+    }
+  }
+}
+
 provider "aws" {
   region = local.region
 }
