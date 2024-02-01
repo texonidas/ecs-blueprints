@@ -3,7 +3,7 @@ terraform {
     organization = "talentvine"
 
     workspaces {
-      name = "api"
+      name = "api-service"
     }
   }
 }
