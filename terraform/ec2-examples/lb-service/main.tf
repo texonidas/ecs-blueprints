@@ -16,7 +16,7 @@ locals {
   name   = "api"
   region = "ap-southeast-2"
   environment_name = "develop"
-  core_infra_name = "core-infra"
+  core_infra_name = "network"
 
   container_port = 8080 # Container port is specific to this app example
   container_name = "api-service"
@@ -219,7 +219,7 @@ data "aws_subnet" "private_cidr" {
   id       = each.value
 }
 
-data "aws_ecs_cluster" "core_infra" {
+data "aws_ecs_cluster" "network" {
   cluster_name = local.core_infra_name
 }
 
