@@ -5,6 +5,7 @@ provider "aws" {
 locals {
   name   = "api"
   region = "ap-southeast-2"
+  environment_name = "develop"
 
   container_port = 8080 # Container port is specific to this app example
   container_name = "api-service"
@@ -32,7 +33,7 @@ module "ecs_service" {
   requires_compatibilities = ["EC2"]
   capacity_provider_strategy = {
     default = {
-      capacity_provider = "core-infra" # needs to match name of capacity provider
+      capacity_provider = "network" # needs to match name of capacity provider
       weight            = 1
       base              = 1
     }
@@ -50,10 +51,10 @@ module "ecs_service" {
         }
       ]
 
-      environment = [
+      environment_files = [
         {
-          name  = "NODEJS_URL",
-          value = "http://ecsdemo-backend.${data.aws_service_discovery_dns_namespace.this.name}:${local.container_port}"
+          type  = "s3",
+          value = "arn:aws:s3:::talentvine-config/${local.environment_name}.env"
         }
       ]
     }
