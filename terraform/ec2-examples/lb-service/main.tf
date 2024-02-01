@@ -37,7 +37,7 @@ module "ecs_service" {
 
   name          = local.name
   desired_count = 3
-  cluster_arn   = data.aws_ecs_cluster.core_infra.arn
+  cluster_arn   = data.aws_ecs_cluster.network.arn
 
   # Task Definition
   enable_execute_command   = true
